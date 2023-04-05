@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
     <meta charset="UTF-8">
 
     <title>
-    {{ title }}
+        {% block title %}
+            {{ title }}
+        {% endblock title %}
     </title>
 
     </head>
     <body>
+        <nav>
+            {% for item in menu_items %}
+                <a href="{{ url_for(item) }}">{{ item }}</a>
+            {% endfor %}
+        </nav>
+    
         <main>
             {{ body }}
         </main>
