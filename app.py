@@ -30,8 +30,8 @@ for entry in os.scandir("modules"):
         module = os.path.join("modules", entry.name, "module.py")
         if os.path.isfile(module):
             spec = importlib.util.spec_from_file_location(
-                entry.name",
-                "/path/to/file.py"
+                entry.name,
+                module
             )
             module = importlib.util.module_from_spec(spec)
             modules.append(module)
