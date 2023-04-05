@@ -1,0 +1,14 @@
+h1 body div {
+  background-color: black;
+  color: white;
+}
+
+a.selected {
+  background-color: blue;
+  color: black;
+}
+
+hr {
+  background-color: white;
+  color: white;
+}
