@@ -13,12 +13,18 @@
     <body>
         <nav>
             {% for item in menu_items %}
-                <a href="{{ url_for(item) }}">{{ item }}</a>
+                <a href="{{ url_for(item) }}"
+                {% if item == selected %}
+                     class="selected"                    
+                {% endif %}
+                >{{ item }}</a>
             {% endfor %}
         </nav>
     
         <main>
-            {{ body }}
+            {% block body %}
+                {{ body }}
+            {% endblock body %}
         </main>
         <footer>
             Portfolio Site Copyright Andrew Spangler 2023
