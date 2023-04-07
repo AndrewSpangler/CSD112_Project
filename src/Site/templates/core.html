@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <title>
-        {% block title %}
-            {{ title }}
-        {% endblock title %}
+        {% block title %}{{ title }}{% endblock title %}
     </title>
 
     </head>
     <body>
         <nav>
-            {% for item in menu_items %}
-                <a href="{{ url_for(item) }}"
-                {% if item == selected %}
-                     class="selected"                    
-                {% endif %}
-                >{{ item }}</a>
+            {% for item, link in menu_items %}
+                <a href="{{ url_for(link) }}" {% if item == selected %} class="selected"{% endif %}>   {{ item }}
+                </a>
             {% endfor %}
         </nav>
     
