@@ -1,4 +1,4 @@
-h1 body div {
+h1, body, div {
   background-color: black;
   color: white;
 }

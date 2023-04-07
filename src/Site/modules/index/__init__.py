@@ -15,7 +15,7 @@ def load(app):
     @blueprint.route("/")
     def index():
         app.selected = "Index"
-        return render_template("index.html", print=print)
+        return render_template("index.html")
 
     # Add item to top nav
     app.menu_items.append(

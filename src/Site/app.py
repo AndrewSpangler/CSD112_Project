@@ -6,11 +6,12 @@ import logging
 import traceback
 from logging.config import dictConfig as logConfig
 
-from flask import Flask
+from flask import Flask, render_template
 
 DIR = os.path.dirname(__file__)
 TEMPLATES_FOLDER = os.path.join(DIR, "templates")
 MODULES_FOLDER = os.path.join(DIR, "modules")
+STATIC_FOLDER = os.path.join(DIR, "static")
 
 # Configure Logging
 logging.basicConfig(level=logging.DEBUG)
@@ -41,6 +42,7 @@ class App(Flask):
             "Portfolio Site",
             *args,
             template_folder=TEMPLATES_FOLDER,
+            static_folder=STATIC_FOLDER,
             **kwargs,
         )
         # Load and set secret key
@@ -132,9 +134,19 @@ class App(Flask):
             )
         return modules
 
+    def render_error(
+        self, title="Error", error_message="Sorry, an error has occured."
+    ) -> str:
+        """Simple error page for user"""
+        return render_template("error.html", title=title, error_message=error_message)
+
 
 # Flask object that gets imported by wsgi app
 app = App()
+# # Test endpoint
+# @app.route("/raise_error")
+# def raise_error() -> str:
+#     return app.render_error()
 
 
 # Context processor which runs before any template is rendered
