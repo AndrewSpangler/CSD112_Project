@@ -1,10 +1,10 @@
 import os
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 
-priority = 0  # Always load this module first
+priority = 200
 
 blueprint = Blueprint(
-    "Index",
+    "LinkedIn",
     __name__,
     static_folder=os.path.join(os.path.dirname(__file__), "static"),
     template_folder=os.path.join(os.path.dirname(__file__), "templates"),
@@ -12,11 +12,10 @@ blueprint = Blueprint(
 
 
 def load(app):
-    @blueprint.route("/")
-    def index():
-        app.selected = "HOME"
-        return render_template("index.html")
+    @blueprint.route("/linkedin")
+    def linkedin():
+        return redirect(app.settings.github_url, code=302)
 
     # Add item to top nav
-    app.menu_items.append(("HOME", "Index.index"))
+    app.menu_items.append(("LINKEDIN", "LinkedIn.linkedin"))
     app.register_blueprint(blueprint)

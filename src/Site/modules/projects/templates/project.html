@@ -1,0 +1,16 @@
+{% extends "core.html" %}
+
+{% block title %}
+    Projects
+{% endblock title %}
+
+{% block main %}
+<article>
+    <header>
+        <h1 class="title_font">{{ project["title"] }}</h1>
+        <q>{{ project["quote"] }}</q>
+    </header>
+    <img src="{{ url_for('.static', filename='images/'+project['image']) }}" alt="{{ project['image_alt_text'] }}">
+    <p>{{ project["details"] }}</p>
+</article>
+{% endblock main %}

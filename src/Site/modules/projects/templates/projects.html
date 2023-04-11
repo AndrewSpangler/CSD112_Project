@@ -1,0 +1,27 @@
+{% extends "core.html" %}
+
+{% block title %}
+    Projects
+{% endblock title %}
+
+{% block main %}
+<article class="projects_body">
+    <center>
+        <header>
+            <h1 class="title_font">My Projects</h1>
+            <p>A collection of my open source software applications</p>
+        </header>
+    </center>
+    {% for project in projects %}
+    <section>
+        <a href="/projects/{{ project['name'] }}">
+            <p class="date offset_top offset_right">{{ project["date"] }}</p>
+            <h2 class="subtitle_font offset_left offset_top">{{ project["title"] }}</h2>
+            <!--Can't center q directly for some reason-->
+            <p class="subtitle_font offset offset_left"><q>{{ project["quote"] }}</q></p>
+            <img class="project_image offset_bottom" src="{{ url_for('.static', filename='images/'+project['image']) }}" alt="{{ project['image_alt_text'] }}">
+        </a>
+    </section>
+    {% endfor %}
+</article>
+{% endblock main %}

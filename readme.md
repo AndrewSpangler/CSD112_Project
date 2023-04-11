@@ -22,7 +22,7 @@ Develop a modular portfolio site using dynamically loaded self-contained modules
 
 #### File Structure:
 ```
-root folder/
+src/Site/
 ├─app.py             <- Application entry point
 ├─static/            <- shared static files folder
 │ └─css/

@@ -1,14 +1,172 @@
-h1, body, div {
-  background-color: black;
-  color: white;
+
+:root {
+  --indigo: #3F51B5;
+  --bg: #171717;
+  --fg: #2E2E2E;
+  --fg-hover: #363636;
+  --fg-outline: #555555;
+  --fg-outline-width: 2px;
+  --font-color: #FFFFFF;
+  --default-pad: 25px;
+  --section-radius: 8px;
 }
 
-a.selected {
-  background-color: blue;
-  color: black;
+body {
+  margin: 0px;
+}
+
+h1, body, div {
+  background-color: var(--bg);
+  color: var(--font-color);
+}
+
+header p {
+  font-family: monospace,monospace;
+  font-weight: bold;
+  margin: 0px;
 }
 
 hr {
+  background-color: var(--font-color);
+  color: var(--font-color);
+  padding:-2px;
+  margin: 0px;
+  padding: 0px;
+}
+
+main {
+  margin: auto;
+  margin-top: var(--default-pad);
+  max-width: 500px;
+  padding: var(--default-pad);
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+section {
+  background-color: var(--fg);
+  margin: auto;
+  margin-top: var(--default-pad);
+  margin-bottom: var(--default-pad);
+  border-radius: var(--section-radius);
+}
+
+section:hover {
+  background-color: var(--fg-hover);
+  outline: var(--fg-outline-width) solid var(--fg-outline);
+}
+
+section a {
+  text-decoration: none;
+  color: var(--font-color);
+}
+
+.short_hr {
+  width: 50%;
+  text-align: center;
+  margin: auto;
+  margin-top: var(--default-pad);
+}
+
+
+footer {
+  position: absolute; /* place footer on bottom */
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+  background-color: var(--fg);
+  line-height: 2.5rem; /* centers text vertically */
+  text-align: center;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;
+}
+
+.centered {
+  text-align: center;
+}
+
+/* Keep project image at correct aspect ratio and keep it from getting too large */
+.project_image {
+  width: fit-content;
+  object-fit: contain;
+  max-height: 350;
+  width: calc(100% - 2 * var(--default-pad));
+  margin: var(--default-pad);
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.title_font {
+  font-family: monospace,monospace;
+  font-weight: bolder;
+  font-size: 30px;
+
+}
+
+.subtitle_font {
+  font-family: monospace,monospace;
+/*  font-weight: bold;*/
+}
+
+.title_font, .subtitle_font {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+/* 
+Used for offsetting project title/subtitle in list pages 
+Must come after font margins set above
+*/
+.offset_left {
+  margin-left: var(--default-pad);
+}
+.offset_right {
+  margin-right: var(--default-pad);
+}
+.offset_top {
+  padding-top: var(--default-pad);
+}
+.offset_bottom {
+  padding-bottom: var(--default-pad);
+}
+
+
+.topnav a {
+  display: inline-block;
+  padding: 8px 16px;
+  font-family: monospace,monospace;
+  font-weight: bolder;
+  font-size: 16px;
+  text-decoration: None;
+  text-align: center;
+  cursor: pointer;
+  color: var(--indigo);
+  margin: 0px;
+}
+
+.topnav a.selected {
+  background-color: var(--indigo);
+  color: black;
+}
+
+.topnav a:hover {
   background-color: white;
-  color: white;
+  color: black;
+}
+
+.date {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  font-family: monospace,monospace;
+  font-size: 12px;
+  float: right;
 }

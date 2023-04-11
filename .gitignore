@@ -161,3 +161,6 @@ secret.key
 
 # Debug flag
 debug
+
+# Settings file
+settings.py

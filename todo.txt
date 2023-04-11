@@ -1,0 +1,2 @@
+todo:
+fix settings.py stuff

@@ -61,7 +61,22 @@ class App(Flask):
         # This variable is updated when the user clicks a nav item
         self.selected = ""
 
-        # Module loading
+        settings_file = os.path.join(os.getcwd(), "settings.py")
+        if not os.path.isfile(settings_file):
+            raise ValueError(
+                """
+                You must create a settings.py file in the following format: \
+                project_name = "PROJECT NAME" \
+                project_about = "A SHORT BLURB ABOUT YOUR PROJECT" \
+                project_details = "MORE DETAILS"\
+                github_url = "A USER'S GITHUB URL"\
+                """
+            )
+        spec = importlib.util.spec_from_file_location("settings", settings_file)
+        self.settings = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.settings)
+        print(self.settings)
+
         self.logger.info("# Loading dynamic modules.")
         # Load built-in modules
         unloaded = self.get_modules(MODULES_FOLDER, True)
@@ -102,7 +117,7 @@ class App(Flask):
                 traceback.print_exc()
                 self.logger.info("\n")
 
-        # Sort modules by priority
+        # Sort modules by priority, a larger number loads later
         modules = sorted(modules, key=lambda m: m[0].priority)
         for m in modules:
             print("Loading", m[1])

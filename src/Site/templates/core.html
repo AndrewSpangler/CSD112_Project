@@ -2,27 +2,31 @@
 <html lang="en">
     <head>
     <meta charset="UTF-8">
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <title>
         {% block title %}{{ title }}{% endblock title %}
     </title>
 
     </head>
     <body>
-        <nav>
-            {% for item, link in menu_items %}
-                <a href="{{ url_for(link) }}" {% if item == selected %} class="selected"{% endif %}>   {{ item }}
-                </a>
-            {% endfor %}
-        </nav>
-    
-        <main>
-            {% block main %}
-                {{ main }}
-            {% endblock main %}
-        </main>
-        <footer>
-            Portfolio Site Copyright Andrew Spangler 2023
-        </footer>
+        <div id="page-container">
+            <div id="content-wrap">
+                <center>
+                    <nav class="topnav">
+                    {% for item, link in menu_items %}
+                        <a href="{{ url_for(link) }}" {% if item == selected %} class="selected {% endif %}">   {{ item }}
+                        </a>
+                    {% endfor %}
+                    </nav>
+                </center>
+                <hr>
+                <main>
+                    {% block main %}{{ main }}{% endblock main %}
+                </main>
+            </div>
+            <footer>
+                Portfolio Site Copyright Andrew Spangler 2023
+            </footer>
+        </div>
     </body>
 </html>
