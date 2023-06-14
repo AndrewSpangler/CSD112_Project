@@ -228,3 +228,7 @@ a {
 .form-group input[type="text"], .form-group textarea {
   width: 100%;
 }
+
+.contact_form {
+  padding: 20px;
+}
