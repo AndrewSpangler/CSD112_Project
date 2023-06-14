@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="UTF-8">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>
-        {% block title %}{{ title }}{% endblock title %}
-    </title>
-
-    </head>
-    <body>
-        <div id="page-container">
-            <div id="content-wrap">
-                <center>
-                    <nav class="topnav">
-                    {% for item, link in menu_items %}
-                        <a href="{{ url_for(link) }}" {% if item == selected %} class="selected {% endif %}">   {{ item }}
-                        </a>
-                    {% endfor %}
-                    </nav>
-                </center>
-                <hr>
-                <main>
-                    {% block main %}{{ main }}{% endblock main %}
-                </main>
-            </div>
-            <footer>
-                <i>
-                    Portfolio Site &copy; Andrew Spangler, 2023
-                    <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a>
-                </i>
-            </footer>
+    <meta name="author" content="Andrew Spangler">
+    <title>{% block title %}{{ title }}{% endblock title %}</title>
+    <meta name="description" content="Portfolio">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div id="page-container">
+        <div id="content-wrap">
+            <center>
+                <nav class="topnav">
+                {% for item, link in menu_items %}
+                    <a href="{{ url_for(link) }}" {% if item == selected %} class="selected {% endif %}">   {{ item }}
+                    </a>
+                {% endfor %}
+                </nav>
+            </center>
+            <hr>
+            <main>
+                {% block main %}{{ main }}{% endblock main %}
+            </main>
         </div>
-    </body>
+        <footer>
+            <i>
+                Portfolio Site &copy; Andrew Spangler, 2023
+                <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a>
+            </i>
+        </footer>
+    </div>
+</body>
 </html>
