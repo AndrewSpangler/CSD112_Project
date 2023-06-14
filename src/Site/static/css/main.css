@@ -1,11 +1,10 @@
-
 :root {
-  --indigo: #3F51B5;
+  --indigo: #a8b1e1;
   --bg: #171717;
   --fg: #2E2E2E;
   --fg-hover: #363636;
-  --fg-outline: #555555;
-  --fg-outline-width: 2px;
+  --fg-outline: #888888;
+  --fg-outline-width: 3px;
   --font-color: #FFFFFF;
   --default-pad: 25px;
   --section-radius: 8px;
@@ -13,16 +12,25 @@
 
 body {
   margin: 0px;
+  background-image: url("/static/images/background.png");
 }
 
 h1, body, div {
-  background-color: var(--bg);
+  /* background-color: var(--bg); */
   color: var(--font-color);
 }
 
-header p {
+p {
   font-family: monospace,monospace;
+  font-size: large;
+}
+
+header p {
   font-weight: bold;
+  margin: 0px;
+}
+
+article p {
   margin: 0px;
 }
 
@@ -37,13 +45,20 @@ hr {
 main {
   margin: auto;
   margin-top: var(--default-pad);
-  max-width: 500px;
+  max-width: 600px;
   padding: var(--default-pad);
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-section {
+
+/*Single project page*/
+.project_details {
+  margin: var(--default-pad);
+  padding-bottom: var(--default-pad);
+}
+
+.project_section, .projects_section {
   background-color: var(--fg);
   margin: auto;
   margin-top: var(--default-pad);
@@ -51,12 +66,13 @@ section {
   border-radius: var(--section-radius);
 }
 
-section:hover {
+/*Projects list page*/
+.projects_section:hover {
   background-color: var(--fg-hover);
   outline: var(--fg-outline-width) solid var(--fg-outline);
 }
 
-section a {
+.projects_section a {
   text-decoration: none;
   color: var(--font-color);
 }
@@ -67,7 +83,6 @@ section a {
   margin: auto;
   margin-top: var(--default-pad);
 }
-
 
 footer {
   position: absolute; /* place footer on bottom */
@@ -82,10 +97,12 @@ footer {
 #page-container {
   position: relative;
   min-height: 100vh;
+  background-image: url("/static/images/background.png");
 }
 
 #content-wrap {
   padding-bottom: 2.5rem;
+  background-color: transparent;
 }
 
 .centered {
@@ -104,18 +121,17 @@ footer {
 }
 
 .title_font {
-  font-family: monospace,monospace;
   font-weight: bolder;
   font-size: 30px;
-
 }
 
-.subtitle_font {
+.quote_font {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.title_font, .subtitle_font, .quote_font {
   font-family: monospace,monospace;
-/*  font-weight: bold;*/
-}
-
-.title_font, .subtitle_font {
   margin-block-start: 0em;
   margin-block-end: 0em;
   margin-inline-start: 0px;
@@ -139,17 +155,22 @@ Must come after font margins set above
   padding-bottom: var(--default-pad);
 }
 
+a {
+  font-weight: bolder;
+  font-size: 16px;
+  color: var(--indigo);
+}
+.topnav {
+  background-color: var(--fg);
+}
 
 .topnav a {
   display: inline-block;
   padding: 8px 16px;
   font-family: monospace,monospace;
-  font-weight: bolder;
-  font-size: 16px;
   text-decoration: None;
   text-align: center;
   cursor: pointer;
-  color: var(--indigo);
   margin: 0px;
 }
 
@@ -167,6 +188,43 @@ Must come after font margins set above
   margin-block-start: 0em;
   margin-block-end: 0em;
   font-family: monospace,monospace;
-  font-size: 12px;
+  font-size: small;
   float: right;
+}
+
+.landingImage {
+  width: 100%;
+}
+
+/* Big attention-grabbing buttons */
+.bigButton {
+  display: inline;
+  padding: 8px 16px;
+  font-family: monospace,monospace;
+  text-decoration: None;
+  text-align: center;
+  cursor: pointer;
+  margin: 0px;
+  background-color: var(--indigo);
+  color: black;
+  width: 100%;
+}
+.bigButton:hover {
+  background-color: white;
+  color: black;
+}
+
+
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: large;
+  font-family: monospace;
+  font-weight: bold;
+}
+.form-group input[type="text"], .form-group textarea {
+  width: 100%;
 }

@@ -10,15 +10,18 @@
         <header>
             <h1 class="title_font">Andrew Spangler</h1>
             <p>IT Specialist • FOSS Software Developer • Hardware Hacker</p>
+            <br>
         </header>
+        <img src="{{ url_for('static', filename='images/landing.jpg') }}" class="landingImage">
+        <br>
         <p>
-            A sample of my projects and creations.
-            <br>
-            Loads project page from json files,
-            <br>
-            Uses a dynamic module system to add stuff to the site
-            without changing existing code.
+            This is a portfolio site to share a sampling of my projects and creations. 
+            The <a href="{{ url_for('Projects.projects') }}">projects</a> page is built dynamically from the contents of a folder of json files,
+            This allows portions of the site to be edited or added without editing existing parts of the application.  
         </p>
+        <br>
+        <a class="bigButton" href="{{ url_for('Projects.projects') }}">Click here to explore some of my projects</a>
+        <br>&nbsp;<br>
     </article>
 </center>
 {% endblock main %}

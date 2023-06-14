@@ -1,0 +1,8 @@
+{
+	"title": "py-simple-ttk",
+	"date": 1686694869,
+	"image": "simple_ttk.png",
+	"image_alt_text": "The py_simple_ttk test / demo app.",
+	"quote": "Tkinter themes don't have to be hard.",
+	"details": "py_simple_ttk exists because I got tired of rewriting the same tkinter/tcl/ttk code over and over for simple projects. It is written in Python (and a little bit of tcl) and extends ttk with built-in themes and a basic application framework.\n\nThe goal of py_simple_ttk is to provide a variety of meta widgets with consistent get, set, enable, disable, and destroy methods and mega-widgets that make ttk development easier and faster.\n\nFeatures include\n - built-in theme support\n - a score of labeled and multi-widgets \n - tools for easy form building\n - a sample app to demo py_simple_ttk's features\n - a file-based config system\n - Plus a number of optional PIL widgets.\n\nSee the readme for examples.\n\npy-simple-ttk can be installed using pip with the command 'pip install py-simple-ttk'\n\nDocumentation and source available at <a href=\"https://pypi.org/project/py-simple-ttk/\">PyPi</a> and <a href=\"https://github.com/andrewspangler/py_simple_ttk\">GitHub</a>"
+}

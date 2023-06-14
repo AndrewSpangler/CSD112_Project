@@ -14,7 +14,7 @@ blueprint = Blueprint(
 def load(app):
     @blueprint.route("/linkedin")
     def linkedin():
-        return redirect(app.settings.github_url, code=302)
+        return redirect(app.settings.linkedin_url, code=302)
 
     # Add item to top nav
     app.menu_items.append(("LINKEDIN", "LinkedIn.linkedin"))

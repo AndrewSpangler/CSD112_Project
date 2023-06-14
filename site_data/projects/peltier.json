@@ -1,0 +1,8 @@
+{
+	"title": "Peltier Overclock",
+	"date": 1686694869,
+	"image": "peltier.png",
+	"image_alt_text": "It's almost to -40 degrees! Fahrenheit or Celcius?.. Both!",
+	"quote": "Making a can chiller from a $10 fridge",
+	"details": "Backstory: I bought a mini-fridge can cooler from Wal-Mart that was on clearance for about $10. It kept cans at about ~45F but wasn't really worth keeping around. I wanted the lighted LED mirror/door for a different project and was disassembling it at which point I removed the main chiller.\n\nAfter googling some part numbers and reading Wikipedia articles I learned that the chiller was based on a <a href=\"https://en.wikipedia.org/wiki/Thermoelectric_effect#Peltier_effect\">Peltier Cell (Wikipedia)</a> which is a solid state component that moves heat from one of its flat sides to the opposite when a voltage is applied.\n\nI found the cell in the chiller was able to take a higher voltage (which results in more heat being moved resulting in a lower temperature) so I connected it to an appropriate power supply (24V rather than 12V). I also connected a better fan to to the cell and added insulation around it.\n\nThis resulted in temperatures as low as -34F, much lower than the ~45F it was previously keeping cans.\n\nPlacing a single can of soda on the cool surface froze the can in about an hour and a half, at which point the soda burst and I realized maybe this wasn't the best idea."
+}

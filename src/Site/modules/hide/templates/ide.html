@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<!--
+Warning, This file will bread node.js error checking
+
+Log and Error redirects based on
+https://stackoverflow.com/questions/20256760/javascript-console-log-to-html
+
+Uses Codemirror for the editor
+https://codemirror.net/
+-->
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>JS TEST</title>
+		<!-- Main CodeMirror css -->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.css"></link>
+		<!-- Hint css -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/show-hint.css">
+		<!-- Abbot theme -->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.css"></link>
+		<!-- Main CodeMirror module -->
+		<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.js"></script>
+		<!-- hint  common -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/show-hint.js"></script>
+		<!-- XML  hint -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/xml-hint.js"></script>
+		<!-- HTML hint -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/html-hint.js"></script> 
+		<!-- XML  mode - Must load before htmlmixed -- -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.js"></script>
+		<!-- Javascript mode - Must load before htmlmixed -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js"></script>
+		<!-- CSS mode - Must load before htmlmixed -- -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.js"></script>
+		<!-- htmlmixed -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js"></script>       
+		
+	</head>
+	<style>
+		/* Declare Variables */
+		:root {
+			color-scheme: dark; /* Apply system dark theme to chrome and some other browser's scroll bars  */
+			--header-padding-top: 10px;
+			--header-height: 30px;
+			--header-color: black;
+			--button-font-color: white;
+			--button-background: #909999;
+			--button-hover-background: #C0CCCC;
+			--header-font-color: white;
+			--console-font-color: white;
+			--button-height: 30px;
+			--tile-spacing: 8px;
+			--page-background-color: #333355;
+			--console-background-color: #231c14; /*abbot theme background*/
+			--top-row-height:40vh;
+			--min-output-height: 200px;
+		}
+		body {
+			height: 100%;
+			background: var(--page-background-color);
+		}
+		h2, pre {
+			margin-block-start: 0em;
+			margin-block-end: 0em;
+		}
+		h2 {
+			font-family: Arial, sans-serif;
+			height: var(--header-height);
+			margin-top: var(--tile-spacing);
+			background: var(--header-color);
+			color: var(--header-font-color);
+			padding-top: var(--header-padding-top);
+			padding-left: 10px;
+			border-radius: 8px 8px 0px 0px; /* Round top half */
+			white-space: nowrap;
+		}
+		textarea, pre{
+			padding: 20px;
+		}
+		pre {
+			color: var(--console-font-color);
+			white-space: pre-wrap;
+			background: var(--console-background-color);
+			padding-top: 8px;
+		}
+		button {
+			margin: 0px;
+			text-align: center;
+			padding: 8px;
+			padding-left: 0px;
+			padding-right: 0px;
+			background: var(--button-background);
+			border: 0px;
+			transition-duration: 0.2s;
+			height: var(--button-height);
+		}
+		button:hover {
+			color: black;
+			background-color: var(--button-hover-background);
+		}
+
+		.live_view_checkbox_container {
+			display: flex;
+			outline: 2px solid var(--button-background);
+			margin: 2px;
+			border-radius: 0px 0px 0px 8px;
+			background: var(--console-background-color);
+		}
+		.live_view_row {
+			width: 100%;
+			display: flex;
+		}
+		/* make live button fill remaining space */
+		.live_view_row button {
+			width: 100%;
+			flex-grow: 1;
+			border-radius: 0px 0px 8px 0px;
+		}
+		/* Style checked color */
+		.live_view_row input[type="checkbox"] {
+		  accent-color: #3b3b3b;
+		}
+		/* center label with button and add padding*/
+		.live_view_row label { 
+			margin-right: 10px;
+			display: inline-block;
+			line-height: 150%;
+		}
+		/* Style for live view label and*/
+		.live_view_row label, button { 
+			color: var(--button-font-color);
+			font-family: Arial, sans-serif;
+			font-size: 17px;
+			font-weight: bold;
+		}
+		/* config flexbox for grid */
+		.grid, .output_grid {
+			float: left;
+			margin: var(--tile-spacing);
+			margin-top: 0px;
+		}
+		.grid {
+			height: var(--top-row-height);
+			position: relative;
+			display: inline-block;
+			width: calc(33.333% - 2 * var(--tile-spacing));
+		}
+		.output_grid {
+			height: calc(100vh - var(--top-row-height) - var(--header-height));
+			width: calc(50% - 2 * var(--tile-spacing));
+		}
+		.output_container {
+			overflow-y:scroll;
+			height: calc(100% - var(--header-height) - var(--button-height) - var(--header-padding-top) - var(--tile-spacing));
+			min-height: var(--min-output-height);
+			background: #231c14;
+		}
+		.save_button {
+			/*Save button base64 encoded png*/
+			background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAGVJREFUOE/tU9EKACEMmv//0YuCjiWzBkdv9VRNHTmD/VzY8d3dex2AxD0Bs8+DbhibpUyM2EWAHc8E+G6ZAhdP59GQcxBJah85aQ4mkcWzQMkgsYhK490kVv4Z1Hsr5HQKVeLENZo5VA0Mq+6pAAAAAElFTkSuQmCC");
+			background-repeat: no-repeat;
+			height: 16px;
+			width: 16px;
+			margin-left: 10px;
+			padding: 0px;
+		}
+		.load_button {
+			/*Load button base64 encoded png*/
+			background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAGVJREFUOE/tU9EKACEMmv//0YuCjiWzBkdv9VRNHTmD/VzY8d3dex2AxD0Bs8+DbhibpUyM2EWAHc8E+G6ZAhdP59GQcxBJah85aQ4mkcWzQMkgsYhK490kVv4Z1Hsr5HQKVeLENZo5VA0Mq+6pAAAAAElFTkSuQmCC");
+			background-repeat: no-repeat;
+			height: 16px;
+			width: 16px;
+			margin-left: 10px;
+			padding: 0px;
+			-moz-transform: scaleY(-1);
+			-o-transform: scaleY(-1);
+			-webkit-transform: scaleY(-1);
+			transform: scaleY(-1);
+		}
+		.iframe_div {
+			display: flex;
+			overflow: scroll; 
+			min-height: calc(var(--min-output-height) + var(--button-height));
+		}
+		iframe, .CodeMirror {
+			flex-grow: 1;
+		}
+		.iframe_div, .CodeMirror {
+			height: calc(100% - var(--header-height) - var(--header-padding-top) - var(--tile-spacing));
+		}
+	</style>
+	
+	<body>
+	<div class="grid">
+		<h2>JAVASCRIPT 
+			<label for="load_button_js" style="outline">
+				<input type="file" id="load_button_js" class="load_button" hidden/>
+				<img class="load_button">
+			</label>
+			<button id="save_button_js" class="save_button"></button>
+		</h2>
+		<textarea id="js_area" name="js_area" spellcheck="false">for(i=0;i<5;i++) {
+	console.log(i);
+}
+function draw_triangle(width){
+	for (let i=0; i <= width; i++){
+		let traveled = width - i;
+		console.log(
+			" ".repeat(traveled)
+			+ "#".repeat(2 * i + 1)
+			+ " ".repeat(traveled)
+		);
+	}
+}
+draw_triangle(10);</textarea>
+	</div>
+
+	<div class="grid">
+		<h2>HTML BODY 
+			<label for="load_button_html" style="outline">
+				<input type="file" id="load_button_html" class="load_button" hidden/>
+				<img class="load_button">
+			</label>
+			<button id="save_button_html" class="save_button"></button>
+		</h2>
+		<!-- HTML BOX CONTENTS -->
+		<textarea id="html_area" name="html_area" spellcheck="false">
+<h2> Hello </h2>
+<h4> Welcome to Andrew's Mini HTML IDE <b>(H.IDE)</b></h4>
+<p> The IDE now features a live output option. <p>
+<p> Comments / suggestions appreciated! <p></textarea>
+		<!-- HTML BOX CONTENTS -->
+	</div>
+	
+	<div class="grid">
+		<h2>CSS 
+			<label for="load_button_css" style="outline">
+				<input type="file" id="load_button_css" class="load_button" hidden/>
+				<img class="load_button">
+			</label>
+			<button id="save_button_css" class="save_button"></button>
+		</h2>
+		<textarea id="css_area" name="css_area" spellcheck="false">
+body {
+	background: #231c14; /*abbot theme background*/  
+}
+h2 {
+	font-family: Arial, sans-serif;
+	font-size: 32px;
+}
+h2, h4, p {
+	margin-block-start: 0em;
+	margin-block-end: 0em;
+	color: CornflowerBlue;
+}
+h4, p {
+	font-family: monospace;
+}
+h4 {
+	font-size: 20px;
+}
+p {
+	color: white;
+}</textarea>
+	</div>
+
+	<div class="output_grid">
+		<h2>CONSOLE</h2>
+		<div class="output_container">
+			<pre id="logger" class="logger"><!-- Logger element --></pre>
+		</div>
+		<div class="live_view_row">
+			<div class="live_view_checkbox_container">
+				<input type="checkbox" id="live_view" name="live_view" value="live_view" checked>
+				<label for="run_button">Live?</label>
+			</div>
+			<button class="run_button" name="run_button" onclick="testCode()"> RUN </button>
+		</div>
+	</div>
+
+	<div class="output_grid">
+		<h2>PREVIEW</h2>
+		<div id="iframe_div" class="iframe_div"></div>
+	</div>
+	<script>
+		var logger = document.getElementById("logger");
+		console.log = function () {
+			var output = "", arg, i;
+			for (i = 0; i < arguments.length; i++) {
+				arg = arguments[i];
+				output += "<span class=\"log-" + (typeof arg) + "\">";
+				if (
+					typeof arg === "object" &&
+					typeof JSON === "object" &&
+					typeof JSON.stringify === "function"
+				) {
+					output += JSON.stringify(arg);   
+				} else {
+					output += arg;   
+				}
+				output += "</span>&nbsp;";
+			}
+			logger.innerHTML += output + "<br>";
+		};
+		// custom error handling, pipes stack trace to html log
+		console.error = function (err) { console.log(err.stack); };
+	
+		// iframe uses this to redirect uncaught errors to console
+		function redirect_uncaught_error(message, source, lineNumber, colno, error) {
+			console.log(message, "in", source, "\n@", "Line:", lineNumber, "Column:", colno);
+		};
+
+		function testCode() {
+			// Build page in iframe for testing and clear log
+			document.getElementById("logger").innerHTML = ""; // Clear log on new run
+			let js = jsArea.getValue(); // Get js
+			js = btoa(js); // Base 64 encode js
+			let css = cssArea.getValue(); // Get css
+			css = btoa(css); // Base 64 encode css
+			let html = htmlArea.getValue();
+			var lastFrame = document.getElementById("page_container");
+			if (lastFrame) { lastFrame.parentNode.removeChild(lastFrame);}
+			var newFrame = document.createElement("iframe");
+			newFrame.id = "page_container";
+			newFrame.scrolling = "auto";
+			//Embed the css and js in base64 form
+			var iframeHTML = `<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JS TEST INNER</title>
+	<!-- Reroute console to parent -->
+	<script>
+		// Set up console redirect and error handling
+		console.log = window.parent.console.log;
+		console.error = window.parent.console.error;
+		window.onerror = window.parent.redirect_uncaught_error;
+	</`+ /*Break script tag for parser*/`script>
+	<script src="data:application/x-javascript;base64,${js}"></`+`script>`+`
+	<link rel="stylesheet" type="text/css" href="data:text/css;base64,${css}"></link>
+</head> 
+<body>
+${html}
+</body>
+<html>`
+			newFrame.srcdoc = iframeHTML;
+			newFrame.allowtransparency = false;
+			newFrame.style.background = "white";
+			newFrame.sandbox = "allow-same-origin allow-scripts allow-popups allow-forms";
+			var iframeDiv = document.getElementById("iframe_div");
+			iframeDiv.appendChild(newFrame);
+		}
+		// Get the js field
+		var jsArea = CodeMirror.fromTextArea(document.getElementById("js_area"), {
+			lineNumbers: true,
+			mode: "javascript",
+			theme: "abbott",
+			lineWrapping: true,
+		});
+		// Get the html field
+		var htmlArea = CodeMirror.fromTextArea(document.getElementById("html_area"), {
+			lineNumbers: true,
+			mode: "htmlmixed",
+			theme: "abbott",
+			autocomplete: true,
+			lineWrapping: true,
+		});
+		// Get the css field
+		var cssArea = CodeMirror.fromTextArea(document.getElementById("css_area"), {
+			lineNumbers: true,
+			mode: "css",
+			theme: "abbott",
+			lineWrapping: true,
+		});
+
+		// Lookup map for areas
+		const areaMap = new Map([
+			["js", jsArea],
+			["html", htmlArea],
+			["css", cssArea],
+		]);
+
+		var live_view_checkbutton = document.getElementById("live_view");
+		function onSourceChange(editor) {
+			//Function to handle live-view updates
+			if (live_view_checkbutton.checked === true) {
+				testCode();
+			} 
+		}
+		// Bind text area update function for live update mode
+		for (let area of [jsArea, htmlArea, cssArea]) {
+			area.on('change', editor => {onSourceChange();});
+		}
+
+		// Sets up the download buttons for the 3 editor panes
+		for (let area of ["js","css","html"]) {
+			document.getElementById(`save_button_${area}`).onclick = function(){
+				var element = document.createElement("a");
+				element.href = "data:text/plain;charset=UTF-8," + areaMap.get(area).getValue();
+				element.setAttribute("download", `page.${area}`);
+				element.click()
+				element.remove()
+			}
+		}
+
+		for (let area of ["js","css","html"]) {
+			let fileSelected = document.getElementById(`load_button_${area}`);
+			fileSelected.addEventListener('change', function (e) { 
+				//Get the file object 
+				var fileTobeRead = fileSelected.files[0];
+				//Initialize the FileReader object to read the file 
+				var fileReader = new FileReader(); 
+				fileReader.onload = function (e) { 
+					let textarea = areaMap.get(area);
+					// console.log(cssArea.getValue());
+					textarea.setValue(fileReader.result);
+				} 
+				fileReader.readAsText(fileTobeRead);
+			}, false);
+		}
+
+		// Initial iframe draw
+		testCode();
+	</script>   
+	</body>
+</html>

@@ -1,0 +1,8 @@
+{
+	"title": "H.IDE",
+	"date": 1686694869,
+	"image": "ide.png",
+	"image_alt_text": "A screenshot of H.IDE",
+	"quote": "Writing an HTML IDE in HTML",
+	"details": "For fun / out of necessicity I wrote an HTML IDE in HTML, I designed it to be small, self-contained, and entirely browser based. I've hosted it on the site <a href=\"/ide\">here</a>. If you want to download the ide for offline use, right-click the link and select \"save as\"."
+}

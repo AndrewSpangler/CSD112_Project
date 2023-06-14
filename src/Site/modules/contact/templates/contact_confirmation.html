@@ -1,0 +1,17 @@
+{% extends "core.html" %}
+
+{% block title %}
+    Contact Confirmation
+{% endblock title %}
+
+{% block main %}
+<section>
+    <h2>You sent the following message</h2>
+    <p>
+        <b>NAME: </b>{{ request.form["name"] }}<br><br>
+        <b>EMAIL: </b>{{ request.form["email"] }}<br><br>
+        <b>PHONE: </b>{{ request.form["phone"] }}<br><br>
+        <b>MESSAGE: </b><br>{{ request.form["message"] }}<br><br>
+    </p>
+</section>
+{% endblock main %}
